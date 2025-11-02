@@ -1,24 +1,144 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>!!!Truy nã ấm dâu!!!</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial;
-      background-color: #fafafa;
-    }
-    img {
-      width: 400px;
-      border-radius: 10px;
-      margin-top: 50px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-  </style>
-</head>
-<body>
-  <h1>!!!Truy nã ấm dâu!!!</h1>
-  <img src="anhamdau.jpg" alt="Truy nã ấm dâu">
-</body>
-</html>
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Heart } from 'lucide-react';
+
+export default function LoveFortuneUI() {
+  const [name, setName] = useState('');
+  const [partner, setPartner] = useState('');
+  const [style, setStyle] = useState('Tử vi nhẹ');
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-rose-50 flex items-center justify-center p-6">
+      {/* Floating hearts background */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.08 }}
+          transition={{ duration: 1 }}
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-pink-300 to-rose-100"
+        />
+        {[...Array(8)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute"
+            initial={{ y: -50 - i * 40, x: (i - 4) * 60 }}
+            animate={{ y: [ -50 - i * 40, 900 ] }}
+            transition={{ duration: 12 + i * 2, repeat: Infinity, ease: 'linear', delay: i * 0.6 }}
+          >
+            <Heart className="w-8 h-8 text-pink-300/80" />
+          </motion.div>
+        ))}
+      </div>
+
+      <motion.div
+        initial={{ scale: 0.98, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.45 }}
+        className="relative z-10 w-full max-w-4xl bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl p-8 grid md:grid-cols-2 gap-6"
+      >
+        <section className="p-4 flex flex-col gap-4">
+          <div className="flex items-center gap-3">
+            <div className="rounded-full bg-pink-100 p-3 shadow-md">
+              <Heart className="w-6 h-6 text-rose-500" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-extrabold">Bói Tình Duyên</h1>
+              <p className="text-sm text-slate-500">Giao diện mẫu — chỉ có phần nhìn, chưa xử lý logic</p>
+            </div>
+          </div>
+
+          <div className="mt-2">
+            <label className="block text-sm text-slate-600">Tên bạn</label>
+            <input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Ví dụ: An"
+              className="mt-2 w-full rounded-lg border border-slate-200 p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-200"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-slate-600">Tên người ấy (không bắt buộc)</label>
+            <input
+              value={partner}
+              onChange={(e) => setPartner(e.target.value)}
+              placeholder="Ví dụ: Bình"
+              className="mt-2 w-full rounded-lg border border-slate-200 p-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-200"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm text-slate-600">Phong cách bói</label>
+            <select
+              value={style}
+              onChange={(e) => setStyle(e.target.value)}
+              className="mt-2 w-full rounded-lg border border-slate-200 p-3 shadow-sm bg-white"
+            >
+              <option>Tử vi nhẹ</option>
+              <option>Chỉ số hợp nhau</option>
+              <option>Bói bài</option>
+              <option>Tarot (mẫu)</option>
+            </select>
+          </div>
+
+          <div className="mt-4 flex gap-3">
+            <button
+              className="flex-1 rounded-lg py-3 font-semibold shadow-md bg-rose-500 text-white hover:brightness-95 active:scale-95 transition"
+              // no action — UI only
+            >
+              Bói cho tôi 💌
+            </button>
+
+            <button
+              className="flex-1 rounded-lg py-3 border border-slate-200 font-medium hover:bg-slate-50 transition"
+              onClick={() => { setName(''); setPartner(''); }}
+            >
+              Xóa
+            </button>
+          </div>
+
+          <p className="text-xs text-slate-500 mt-4">Lưu ý: đây là giao diện demo. Nếu bạn muốn mình thêm logic (kết quả ngẫu nhiên, phân tích dựa trên tên, hoặc kết nối API), nói mình biết — mình sẽ làm tiếp.</p>
+        </section>
+
+        <aside className="p-4 flex flex-col gap-4">
+          <div className="rounded-xl p-4 bg-gradient-to-b from-rose-50 to-pink-25 border border-rose-100 shadow-inner">
+            <h2 className="text-lg font-bold">Mẫu kết quả</h2>
+            <div className="mt-3">
+              <div className="rounded-lg p-4 bg-white border border-slate-100 shadow-sm">
+                <h3 className="font-semibold">Độ hòa hợp: —</h3>
+                <p className="text-sm text-slate-500 mt-2">Kết quả sẽ hiển thị ở đây khi có logic xử lý. Hiện tại giao diện chỉ trình bày phần nhìn.</p>
+
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  <div className="p-2 text-center rounded bg-rose-50 border border-rose-100">
+                    <div className="text-sm font-semibold">Lãng mạn</div>
+                    <div className="text-xl">—</div>
+                  </div>
+                  <div className="p-2 text-center rounded bg-pink-50 border border-pink-100">
+                    <div className="text-sm font-semibold">Ổn định</div>
+                    <div className="text-xl">—</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <h4 className="text-sm font-medium">Lời khuyên ngắn</h4>
+              <p className="text-sm text-slate-600 mt-2">Ví dụ: Hãy cởi mở, giữ liên lạc, và đừng quên lắng nghe cảm xúc của đối phương.</p>
+            </div>
+          </div>
+
+          <div className="rounded-xl p-4 bg-white border border-slate-100 shadow-sm">
+            <h4 className="font-semibold">Mẹo UX</h4>
+            <ul className="mt-2 text-sm text-slate-600 list-disc list-inside">
+              <li>Thêm animation khi kết quả xuất hiện để tăng cảm xúc.</li>
+              <li>Cho phép lưu kết quả hoặc chia sẻ lên mạng xã hội.</li>
+              <li>Bảo mật: nếu lưu tên, hãy thông báo rõ về quyền riêng tư.</li>
+            </ul>
+          </div>
+
+          <div className="mt-auto text-xs text-slate-400">Phiên bản giao diện • 0.1 — Thiết kế responsive cho cả điện thoại và desktop</div>
+        </aside>
+      </motion.div>
+    </div>
+  );
+}
